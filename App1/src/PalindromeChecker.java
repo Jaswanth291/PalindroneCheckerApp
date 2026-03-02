@@ -1,6 +1,0 @@
-public class PalindromeCheckerApp{
-    public static voiud main(String[] args){
-
-        System.out.println("welcome to Palindrome Checker App Management System");
-    }
-}
