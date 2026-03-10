@@ -1,15 +1,11 @@
 import java.util.Scanner;
 
-// Strategy Interface
-interface PalindromeStrategy {
-    boolean isPalindrome(String input);
-}
+public class PalindromeCheckerApp {
 
-// Strategy 1: Iterative Method
-class IterativePalindrome implements PalindromeStrategy {
-    public boolean isPalindrome(String input) {
-
+    // Iterative Method
+    public static boolean iterativePalindrome(String input) {
         input = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
         int left = 0;
         int right = input.length() - 1;
 
@@ -20,21 +16,11 @@ class IterativePalindrome implements PalindromeStrategy {
             left++;
             right--;
         }
-
         return true;
     }
-}
 
-// Strategy 2: Recursive Method
-class RecursivePalindrome implements PalindromeStrategy {
-
-    public boolean isPalindrome(String input) {
-        input = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        return check(input, 0, input.length() - 1);
-    }
-
-    private boolean check(String str, int start, int end) {
-
+    // Recursive Method
+    public static boolean recursivePalindrome(String str, int start, int end) {
         if (start >= end) {
             return true;
         }
@@ -43,54 +29,33 @@ class RecursivePalindrome implements PalindromeStrategy {
             return false;
         }
 
-        return check(str, start + 1, end - 1);
+        return recursivePalindrome(str, start + 1, end - 1);
     }
-}
-
-// Context Class
-class PalindromeContext {
-
-    private PalindromeStrategy strategy;
-
-    public void setStrategy(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public boolean execute(String input) {
-        return strategy.isPalindrome(input);
-    }
-}
-
-// Main Class
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        PalindromeContext context = new PalindromeContext();
-
-        System.out.println("Choose Palindrome Strategy:");
-        System.out.println("1. Iterative Method");
-        System.out.println("2. Recursive Method");
-
-        int choice = sc.nextInt();
-        sc.nextLine();
-
-        if (choice == 1) {
-            context.setStrategy(new IterativePalindrome());
-        } else {
-            context.setStrategy(new RecursivePalindrome());
-        }
-
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        if (context.execute(input)) {
-            System.out.println("The string is a Palindrome");
-        } else {
-            System.out.println("The string is NOT a Palindrome");
-        }
+        String processed = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        // Measure Iterative Time
+        long startTime1 = System.nanoTime();
+        boolean iterativeResult = iterativePalindrome(input);
+        long endTime1 = System.nanoTime();
+
+        // Measure Recursive Time
+        long startTime2 = System.nanoTime();
+        boolean recursiveResult = recursivePalindrome(processed, 0, processed.length() - 1);
+        long endTime2 = System.nanoTime();
+
+        System.out.println("\nIterative Method Result: " + iterativeResult);
+        System.out.println("Iterative Time: " + (endTime1 - startTime1) + " ns");
+
+        System.out.println("\nRecursive Method Result: " + recursiveResult);
+        System.out.println("Recursive Time: " + (endTime2 - startTime2) + " ns");
 
         sc.close();
     }
