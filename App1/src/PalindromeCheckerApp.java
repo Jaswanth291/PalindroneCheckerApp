@@ -1,4 +1,3 @@
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -6,18 +5,18 @@ public class PalindromeCheckerApp {
 
     public static boolean isPalindrome(String input) {
 
-        Deque<Character> deque = new LinkedList<>();
+        LinkedList<Character> list = new LinkedList<>();
 
-        // Add characters to deque
+        // Add characters to LinkedList
         for (char ch : input.toCharArray()) {
             if (Character.isLetterOrDigit(ch)) {
-                deque.addLast(Character.toLowerCase(ch));
+                list.add(Character.toLowerCase(ch));
             }
         }
 
-        // Compare front and rear characters
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast()) {
+        // Compare first and last elements
+        while (list.size() > 1) {
+            if (!list.removeFirst().equals(list.removeLast())) {
                 return false;
             }
         }
